@@ -1,3 +1,43 @@
-{%  comment  %}
-   This is a comment . 
-{%  end comment  %}
+{% comment %} String {% endcomment %}
+ {% assign myString = "1234" %}
+{{ myString }}, {{ myString.size }}
+<br>
+
+{% comment %} Number {% endcomment %}
+ {%  assign myNumber = 123 %}
+ {% assign myFloatingPoint = 123.5 %}
+
+ {{ myNumber }}, {{ myFloatingPoint }}
+
+ <br>
+ {% comment %} Boolean {% endcomment %}
+{% assign myBoolean = true %}
+{{ myBoolean }}
+
+<br>
+{% comment %} Null {% endcomment %}
+{% assign myNull = null %}
+{{ myNull }}
+
+{% if undefinedVariable == nil %}
+    <p>undefinedVariable is equal to nil</p>
+{% endif %}
+
+<br>
+{% comment %} Array {% endcomment %}
+{% for tag in product.tags %}
+    {{ tag }}
+    <br>
+{% endfor %}
+
+<br>
+{% comment %} Object {% endcomment %}
+{{ product.title }}
+
+{% capture html %}
+  <div>
+    <p>Hello {{ product.title }}</p>
+  </div>
+{% endcapture %}
+
+{{ html.size }}
