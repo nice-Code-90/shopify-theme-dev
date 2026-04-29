@@ -75,3 +75,8 @@
         <p>This product is something else.</p>
     {% endcase %}
 {% endif %}
+
+{% if product.title %}
+    <p>This is the product title: {{ product.title }}</p>
+{% endif %}
+
