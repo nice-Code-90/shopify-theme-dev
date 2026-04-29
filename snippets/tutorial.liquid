@@ -1,82 +1,31 @@
-{% assign myVariable = 9 %}
-{%  assign myString = "not hello" %}
-
-{%  comment %} Greater than {% endcomment %}
-{% if myVariable > 10 %}
-    <p>The variable is greater than 10.</p>
-{% endif %}
-
-{%  comment %} Less than {% endcomment %}
-{% if myVariable < 10 %}
-    <p>The variable is less than 10.</p>
-{% endif %}
-
-{%  comment %} Equal to {% endcomment %}
-{% if myVariable == 10 %}
-    <p>The variable is equal to 10.</p>
-{% endif %}
-
-{%  if myString == "hello" %}
-    <p>The string is "hello".</p>
-{% endif %}
-
-{%  comment %} Not equal to {% endcomment %}
-{% if myString != 'helo' %}
-    <p>The string is not "hello".</p>
-{% endif %}
-
-{%  comment %} Greater than or equal to {% endcomment %}
-{% if myVariable >= 10 %}
-    <p>The variable is greater than or equal to 10.</p>
-{% endif %}
-
-{%  comment %} Less than or equal to {% endcomment %}
-{% if myVariable <= 10 %}
-    <p>The variable is less than or equal to 10.</p>
-{% endif %}
-
-{%  comment %} Contains {% endcomment %}
-  <p>{{ product.title }}</p>
-  <p>{{ product.tags }}</p>
-
-
-{% if product.title contains "Snowboard" %}
-    <p>This product is a snowboard.</p>
-{% endif %}
-
-{% if product.tags contains "Winter" %}
-    <p>This product is tagged with "Winter".</p>
-{% endif %}
-
-{%  unless product.tags contains 'Premium' %}
-  <p>This product is not tagged with "Premium".</p>
-{%  else %}
-  <p>This product is tagged with "Premium".</p>
-{% endunless %}
-
-{% assign isSnowboard = false %}
-{% if product.title contains 'Snowboard' or product.type == 'snowboard' %}
-    {% assign isSnowboard = true %}
-{%  endif %}
-
-{%  if isSnowboard and product.price < 100 %}
-    <p>This snowboard is a great deal!</p>
-{%  endif %}
-
-{%  if product.type != blank %}
-    {%  case product.type %}
-    {% when 'snowboard' %}
-        <p>This product is a snowboard.</p>
-    {% when 'ski wax' %}
-        <p>This product is a ski wax.</p>
-    {% when 'gift card' %}
-        <p>This product is a gift card.</p>
+{% for product in collection.products limit: 5 offset: 4 %}
+    <p style="
+        {%  if forloop.first %}
+          color: green
+        {% elsif forloop.last %}
+          color:orange
+        {% endif %}
+         
+        ">{{ forloop.index }} {{ product.title }}
+    </p>
+    {% if product.tags.size > 0 %}
+        <h2>Tags</h2>
+        <ul>
+        {% for tag in product.tags %}
+            {% if tag == "Sport" %}
+                {% continue %}
+            {% endif %}
+            <li>Product Index: {{ forloop.parentloop.index }} | Tag: {{ tag }}</li>
+            
+        {% endfor %}
+        </ul>
+    {% endif %}
     {% else %}
-        <p>This product is something else.</p>
-    {% endcase %}
-{% endif %}
+        <p>No products found in this collection.</p>
+{% endfor %}
 
-{% if product.title %}
-    <p>This is the product title: {{ product.title }}</p>
-{% endif %}
+{% for i in (11..15) %}
+    <p>Hello world {{ i }}, {{ forloop.index }}</p>
+{% endfor %}
 
+<p>{{ collection.products.size }}</p>
