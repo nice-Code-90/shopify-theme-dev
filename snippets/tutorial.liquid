@@ -1,43 +1,15 @@
-{% comment %} String {% endcomment %}
- {% assign myString = "1234" %}
-{{ myString }}, {{ myString.size }}
-<br>
+{% assign myVariable = 4 %}
 
-{% comment %} Number {% endcomment %}
- {%  assign myNumber = 123 %}
- {% assign myFloatingPoint = 123.5 %}
-
- {{ myNumber }}, {{ myFloatingPoint }}
-
- <br>
- {% comment %} Boolean {% endcomment %}
-{% assign myBoolean = true %}
-{{ myBoolean }}
-
-<br>
-{% comment %} Null {% endcomment %}
-{% assign myNull = null %}
-{{ myNull }}
-
-{% if undefinedVariable == nil %}
-    <p>undefinedVariable is equal to nil</p>
-{% endif %}
-
-<br>
-{% comment %} Array {% endcomment %}
-{% for tag in product.tags %}
-    {{ tag }}
-    <br>
-{% endfor %}
-
-<br>
-{% comment %} Object {% endcomment %}
-{{ product.title }}
-
-{% capture html %}
-  <div>
-    <p>Hello {{ product.title }}</p>
-  </div>
-{% endcapture %}
-
-{{ html.size }}
+{% if myVariable > 10 %}
+    <p>myVariable is greater than 10</p>
+    <p>Another instruction</p>
+    {% assign myNestedVariable = 20 %}
+    <p>{{ myNestedVariable }}</p>
+{% elsif myVariable > 5 %}
+    <p>Variable is greater than 5</p>
+{%  elsif myVariable > 3 %}
+    <p>Variable is greater than 3</p>
+{% else %}
+    <p>myVariable is not greater than 3</p>
+    <p>{{ myNestedVariable }}</p> 
+{% endif %} 
