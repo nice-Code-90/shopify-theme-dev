@@ -1,31 +1,7 @@
-{% for product in collection.products limit: 5 offset: 4 %}
-    <p style="
-        {%  if forloop.first %}
-          color: green
-        {% elsif forloop.last %}
-          color:orange
-        {% endif %}
-         
-        ">{{ forloop.index }} {{ product.title }}
-    </p>
-    {% if product.tags.size > 0 %}
-        <h2>Tags</h2>
-        <ul>
-        {% for tag in product.tags %}
-            {% if tag == "Sport" %}
-                {% continue %}
-            {% endif %}
-            <li>Product Index: {{ forloop.parentloop.index }} | Tag: {{ tag }}</li>
-            
-        {% endfor %}
-        </ul>
-    {% endif %}
-    {% else %}
-        <p>No products found in this collection.</p>
-{% endfor %}
+{% paginate collection.products by 5 %}
+    {% for product in collection.products %}
+        <p>{{ product.title }}</p>
+    {% endfor %}
 
-{% for i in (11..15) %}
-    <p>Hello world {{ i }}, {{ forloop.index }}</p>
-{% endfor %}
-
-<p>{{ collection.products.size }}</p>
+    {{ paginate | default_pagination }}
+{% endpaginate %}
