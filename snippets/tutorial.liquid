@@ -1,7 +1,32 @@
-{% paginate collection.products by 5 %}
-    {% for product in collection.products %}
-        <p>{{ product.title }}</p>
-    {% endfor %}
+{% assign myNumber = '10' %}
 
-    {{ paginate | default_pagination }}
-{% endpaginate %}
+{% comment %} {% assign myNewNumber = myNumber | plus: 5 %}
+{% assign myNewNumber = myNumber | minus: 5 %}
+{% assign myNewNumber = myNumber | times: 5 %}
+{% assign myNewNumber = myNumber | divided_by %} {% endcomment %}
+
+{% assign myNewNumber = myNumber | plus: 0 %}
+
+{{ myNewNumber }}
+{% if myNewNumber > 5 %}
+    <p>my number is greater than 5</p>
+{%  endif %}
+
+{% assign moduloOfMyNumber = myNewNumber | modulo: 2 %}
+{% if moduloOfMyNumber == 0 %}
+    <p>Even</p>
+    {% else %}
+    <p>Odd</p>
+{% endif %}
+
+{% assign myAbsNumber = -11 | abs %}
+<p>{{ myAbsNumber }}</p>
+
+{% assign myRoundedNJumber = 10.6 | round %} {% comment %} floor and ceil also works {% endcomment %}
+<p>{{ myRoundedNJumber }}</p>
+
+{% assign myCappedVale = 60 %}
+<p>{{ myCappedVale | at_most:80 }}</p>
+
+{% assign myCappedVale2 = 60 %}
+<p>{{ myCappedVale2 | at_least:70 }}</p>
