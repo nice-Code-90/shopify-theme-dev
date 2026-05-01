@@ -1,32 +1,50 @@
-{% assign myNumber = '10' %}
+{% assign myString = 'HELLO world' %}
+{% assign myOtherString = ' some EXTRA text' %}
+<p>{{ myString | upcase }}</p>
+<p>{{ myString | downcase }}</p>
+<p>{{ myString | capitalize }}</p>
+<p>{{ myString | append: ' some extra text' }}</p>
+<p>{{ myString | append: myOtherString | downcase }}</p>
+<p>{{ myString | downcase | append: myOtherString }}</p>
 
-{% comment %} {% assign myNewNumber = myNumber | plus: 5 %}
-{% assign myNewNumber = myNumber | minus: 5 %}
-{% assign myNewNumber = myNumber | times: 5 %}
-{% assign myNewNumber = myNumber | divided_by %} {% endcomment %}
+{% assign myStringWithWhitespace = 'hello this has whitespace    ' %}
+<p>{{ myStringWithWhitespace | append: '!' }}</p>
+<p>{{ myStringWithWhitespace | strip | append: '!' }}</p>
 
-{% assign myNewNumber = myNumber | plus: 0 %}
+{% assign myHtmlText = "<p style='color: red'>Hello some extra text some extra text</p>" %}
+{{ myHtmlText | strip_html}}
 
-{{ myNewNumber }}
-{% if myNewNumber > 5 %}
-    <p>my number is greater than 5</p>
-{%  endif %}
+{% assign myLongString = 'This is some very long text that will be trimmed' %}
+<p>{{ myLongString | truncate: 20, '?' }}</p>
+<p>{{ myLongString | truncatewords:4 }}</p>
 
-{% assign moduloOfMyNumber = myNewNumber | modulo: 2 %}
-{% if moduloOfMyNumber == 0 %}
-    <p>Even</p>
-    {% else %}
-    <p>Odd</p>
-{% endif %}
+{{ myHtmlText | strip_html | truncate: 35 }}
 
-{% assign myAbsNumber = -11 | abs %}
-<p>{{ myAbsNumber }}</p>
+{% assign myMultiLineText = "
+    This is the first line
+    This is the second line
+    This is the third line
+    "
+    | newline_to_br
+%}
 
-{% assign myRoundedNJumber = 10.6 | round %} {% comment %} floor and ceil also works {% endcomment %}
-<p>{{ myRoundedNJumber }}</p>
+<p>{{ myMultiLineText }}</p>
 
-{% assign myCappedVale = 60 %}
-<p>{{ myCappedVale | at_most:80 }}</p>
+{% assign myText = "Hello some extra text some extra text" %}
+<p>{{ myText | replace: "text", "string" }}</p>
+<p>{{ myText | replace_first: "text", "string" }}</p>
+<p>{{ myText | replace_last: "text", "string" }}</p>
 
-{% assign myCappedVale2 = 60 %}
-<p>{{ myCappedVale2 | at_least:70 }}</p>
+{% assign myNumbers = '1,2,3,4' | split: ',' %}
+
+{% for number in myNumbers %}
+    <p>{{ number }}</p>
+{% endfor %}
+
+{% assign myLanguages = 'html|orange,css|blue,javascript|yellow' | split: ',' %}
+
+{% for language in myLanguages %}
+    {% assign languageName = language | split: '|' | first %}
+    {% assign languageColor = language | split: '|' | last %}
+    <p style="color: {{ languageColor }}">{{ languageName }}</p>
+{% endfor %}
