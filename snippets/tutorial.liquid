@@ -1,50 +1,50 @@
-{% assign myString = 'HELLO world' %}
-{% assign myOtherString = ' some EXTRA text' %}
-<p>{{ myString | upcase }}</p>
-<p>{{ myString | downcase }}</p>
-<p>{{ myString | capitalize }}</p>
-<p>{{ myString | append: ' some extra text' }}</p>
-<p>{{ myString | append: myOtherString | downcase }}</p>
-<p>{{ myString | downcase | append: myOtherString }}</p>
+{% assign products = collection.products %}
+{% assign prodctTitles = products | map: "title" | reverse  %}
 
-{% assign myStringWithWhitespace = 'hello this has whitespace    ' %}
-<p>{{ myStringWithWhitespace | append: '!' }}</p>
-<p>{{ myStringWithWhitespace | strip | append: '!' }}</p>
+{% comment %} {% for prodctTitle in prodctTitles %}
+    <p>{{prodctTitle}}</p>
+{%  endfor %} {% endcomment %}
 
-{% assign myHtmlText = "<p style='color: red'>Hello some extra text some extra text</p>" %}
-{{ myHtmlText | strip_html}}
+<p>{{ prodctTitles | join: ' - ' }}</p>
 
-{% assign myLongString = 'This is some very long text that will be trimmed' %}
-<p>{{ myLongString | truncate: 20, '?' }}</p>
-<p>{{ myLongString | truncatewords:4 }}</p>
+<p>{{ prodctTitles | first }}</p> {% comment %} productTitles.first {% endcomment %}
+<p>{{ prodctTitles | last }}</p>  {% comment %} productTitles.last {% endcomment %}
+<p>{{ prodctTitles | size }}</p>  {% comment %} productTitles.size {% endcomment %}
 
-{{ myHtmlText | strip_html | truncate: 35 }}
+{% if prodctTitles.size > 5 %}
+    <p>test</p>
+{% endif %}
 
-{% assign myMultiLineText = "
-    This is the first line
-    This is the second line
-    This is the third line
-    "
-    | newline_to_br
-%}
 
-<p>{{ myMultiLineText }}</p>
 
-{% assign myText = "Hello some extra text some extra text" %}
-<p>{{ myText | replace: "text", "string" }}</p>
-<p>{{ myText | replace_first: "text", "string" }}</p>
-<p>{{ myText | replace_last: "text", "string" }}</p>
 
-{% assign myNumbers = '1,2,3,4' | split: ',' %}
+{% for product in products %}
+    <p>{{product.title}} - {{ product.price | money }}</p>
+{%  endfor %}
 
-{% for number in myNumbers %}
-    <p>{{ number }}</p>
+{% assign priceSortedItems = products | sort: 'price' %}
+
+{% for product in priceSortedItems %}
+    <p>{{product.title}} - {{ product.price | money }}</p>
+{%  endfor %}
+
+{% assign allPrices = products | map: 'price' | sort %}
+
+{% for price in allPrices %}
+    <p>{{ price | money }}</p>
+{%  endfor %}
+
+{% assign sumOfPrices = allPrices | sum %}
+<p>Total of all items: {{ sumOfPrices | money }}</p>
+
+{% assign snowboard = products | where: 'title', 'The Complete Snowboard' | first %}
+<p>{{ snowboard.title }} - {{ snowboard.price | money }}</p>
+
+{% assign tags = '' %}
+{% for product in products %}
+    {% for tag in product.tags %}
+        {% assign tags = tags | append: tag | append: '  ' %}
+    {% endfor %}
 {% endfor %}
 
-{% assign myLanguages = 'html|orange,css|blue,javascript|yellow' | split: ',' %}
-
-{% for language in myLanguages %}
-    {% assign languageName = language | split: '|' | first %}
-    {% assign languageColor = language | split: '|' | last %}
-    <p style="color: {{ languageColor }}">{{ languageName }}</p>
-{% endfor %}
+<p>{{ tags |split: " " | uniq | join: ' '}}</p>
