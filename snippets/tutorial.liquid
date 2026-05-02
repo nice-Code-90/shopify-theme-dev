@@ -1,50 +1,58 @@
-{% assign products = collection.products %}
-{% assign prodctTitles = products | map: "title" | reverse  %}
+{% comment %} {{ collection.products.first | json }} {% endcomment %}
 
-{% comment %} {% for prodctTitle in prodctTitles %}
-    <p>{{prodctTitle}}</p>
-{%  endfor %} {% endcomment %}
+<style>
+    .highlight{
+        background:yellow;
+    }
+    .swatch{
+        border-radius:100%;
+        width:30px;
+        height:30px;
+        border:1px solid black;
+        display: block !important;    
+    }
+</style>
 
-<p>{{ prodctTitles | join: ' - ' }}</p>
+{{ shop.name }}
 
-<p>{{ prodctTitles | first }}</p> {% comment %} productTitles.first {% endcomment %}
-<p>{{ prodctTitles | last }}</p>  {% comment %} productTitles.last {% endcomment %}
-<p>{{ prodctTitles | size }}</p>  {% comment %} productTitles.size {% endcomment %}
+<p>{{ collection.description | default: 'This is a default description'}}</p>
 
-{% if prodctTitles.size > 5 %}
-    <p>test</p>
-{% endif %}
+<p>{{ 'This is some text with more text' | highlight: 'text' }}</p>
+
+{% comment %} 
+    YYYY-mm-dd 
+{% endcomment %}
+<p>Copyright {{ 'now' | date: '%Y-%m-%d' }}</p>
+
+{% assign backgroundColor = '#ffffff' %}
+<div class="swatch" style="background: {{ backgroundColor | color_darken: 50 }}"></div>
+
+{% assign backgroundColor = '#000000' %}
+<div class="swatch" style="background: {{ backgroundColor | color_lighten: 70 }}"></div>
+
+
+{% assign color1 = '#ff0000' %}
+{% assign color2 = '#0000ff' %}
+<div class="swatch" style="background: {{ color1 | color_mix: color2, 50 }}"></div>
+
+{% assign color3 = '#00ff00' %}
+<p>{{ color3 | color_to_rgb }}</p>
+
+{% assign color4 = 'rgb(0, 255, 0)' | color_to_hex %}
+<p>{{ color3 | color_to_hex }}</p>
+<p>{{ color3 | color_to_hsl }}</p>
+
+<div class="swatch" style="background: {{ color3 }}"></div>
+
+<div class="swatch" style="background: #f3f3f3"></div>
+<p>{{ '#ffffff' | color_contrast: '#000000' }},{{ '#ffffff' | color_contrast: '#f3f3f3' }}</p>
+
+
+{% comment %}
+     img_url 
+    img_tag 
+{% endcomment %}
+{{ collection.products.first.featured_image | image_url: width: 500, height: 500 | image_tag }}
 
 
 
-
-{% for product in products %}
-    <p>{{product.title}} - {{ product.price | money }}</p>
-{%  endfor %}
-
-{% assign priceSortedItems = products | sort: 'price' %}
-
-{% for product in priceSortedItems %}
-    <p>{{product.title}} - {{ product.price | money }}</p>
-{%  endfor %}
-
-{% assign allPrices = products | map: 'price' | sort %}
-
-{% for price in allPrices %}
-    <p>{{ price | money }}</p>
-{%  endfor %}
-
-{% assign sumOfPrices = allPrices | sum %}
-<p>Total of all items: {{ sumOfPrices | money }}</p>
-
-{% assign snowboard = products | where: 'title', 'The Complete Snowboard' | first %}
-<p>{{ snowboard.title }} - {{ snowboard.price | money }}</p>
-
-{% assign tags = '' %}
-{% for product in products %}
-    {% for tag in product.tags %}
-        {% assign tags = tags | append: tag | append: '  ' %}
-    {% endfor %}
-{% endfor %}
-
-<p>{{ tags |split: " " | uniq | join: ' '}}</p>
