@@ -1,17 +1,6 @@
 {% comment %} {{ collection.products.first | json }} {% endcomment %}
 
-<style>
-    .highlight{
-        background:yellow;
-    }
-    .swatch{
-        border-radius:100%;
-        width:30px;
-        height:30px;
-        border:1px solid black;
-        display: block !important;    
-    }
-</style>
+{{ 'tutorial.css' | asset_url | stylesheet_tag }}
 
 {{ shop.name }}
 
@@ -56,3 +45,6 @@
 
 
 
+<script src="{{ 'tutorial.js' | asset_url }}" defer>
+
+</script>
